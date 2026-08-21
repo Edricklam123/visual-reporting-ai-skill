@@ -1,0 +1,8 @@
+{
+  "name": "visual-reporting",
+  "version": "1.0.0",
+  "description": "Forces report-shaped answers into verdicts, tables, blocks, and inline ASCII diagrams instead of prose walls. Built for lookup, not narrative.",
+  "author": {
+    "name": "Edrick Lam"
+  }
+}

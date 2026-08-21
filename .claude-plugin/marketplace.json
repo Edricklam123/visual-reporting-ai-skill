@@ -1,0 +1,13 @@
+{
+  "name": "visual-reporting",
+  "owner": {
+    "name": "Edrick Lam"
+  },
+  "plugins": [
+    {
+      "name": "visual-reporting",
+      "source": "./",
+      "description": "Forces report-shaped answers into verdicts, tables, blocks, and inline ASCII diagrams instead of prose walls. Built for lookup, not narrative."
+    }
+  ]
+}

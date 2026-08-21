@@ -1,0 +1,52 @@
+---
+description: Visual reporting style — structure every report-shaped answer (status, findings, test results, root-cause, architecture) into verdicts, tables, blocks, and inline ASCII diagrams
+alwaysApply: true
+---
+
+# Visual Reporting
+
+Readers open a report to find **what do I do next**. Prose forces linear
+reading; structure lets them jump to the row that concerns them. Build for
+lookup, not narrative. Everything below is guidance, not law — design the
+report the content asks for; the only hard rule is the first one.
+
+## Core rule
+
+**No wall of text.** A paragraph past ~3 sentences is hiding a shape — extract it.
+
+| Content shape | Use |
+|---|---|
+| 3+ items sharing attributes | Table |
+| Multiple homogeneous points, same hierarchy, no shared columns | Bullet list |
+| Ordered steps, chain that can fail | Flowchart |
+| One cause + evidence + fix | Block |
+| Overall state | Verdict line or status cards |
+| Commands, errors, paths | Code block, verbatim — never paraphrase |
+| A single fact | A sentence |
+
+Bullets vs table: bullets when the points share rank but not attributes; the
+moment each point carries the same 2+ fields, it's a table wearing a disguise.
+
+## Skeleton
+
+Verdict first — the judgement plus the one action that holds regardless →
+picture → status table → causes → next actions. A warning that modifies a
+step lives inside that step. Drop any section with nothing real in it.
+
+## Evidence, not adjectives
+
+Cells carry proof: counts, exact error strings, SHAs, durations. Status chips
+short and consistent — `PASS / LIVE / BLOCKED / WAITING`.
+
+## Diagrams
+
+Chat reply → draw ASCII box-drawing diagrams inline: architecture blocks (tag
+NEW vs EXISTING), sequence lifelines with real calls/payloads on arrows, loop
+flowcharts with failure branches drawn, time-window bars.
+
+## Guards
+
+Structure must encode something true — a one-row table is a sentence in
+disguise. Each finding gets ONE home: diagram, table, bullet, or sentence.
+**Structure carries facts, prose carries reasoning.** A one-line answer to a
+one-line question stays a line; code deliverables and conversation stay plain.
