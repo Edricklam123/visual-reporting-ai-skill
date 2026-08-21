@@ -36,7 +36,11 @@ Same model (Haiku 4.5), same input facts — the only difference is the skill.
 
 ### 1. Status report
 
-Without the skill: the five-paragraph rundown quoted above ([full sample](benchmarks/samples/status-report.baseline.md)). With it ([full sample](benchmarks/samples/status-report.skilled.md)):
+#### Without
+
+The five-paragraph rundown quoted in The Problem — "all tests green" buried in paragraph three ([full sample](benchmarks/samples/status-report.baseline.md)).
+
+#### With
 
 > **Verdict:** All tests passing (180/180). Schema mismatch fixed with backward-compatible read.
 >
@@ -46,15 +50,38 @@ Without the skill: the five-paragraph rundown quoted above ([full sample](benchm
 > | Root cause | Manifest schema v2 renamed `article_slug` → `slug` |
 > | Fix | Read `slug`, fallback to `article_slug` |
 
-The verdict is line one. The error string is exact, not paraphrased. And it's *shorter* — structure deletes the connective prose ("so then I", "as a result") that narrative needs.
+The verdict is line one. The error string is exact, not paraphrased. And it's *shorter* — structure deletes the connective prose ("so then I", "as a result") that narrative needs ([full sample](benchmarks/samples/status-report.skilled.md)).
 
 ### 2. Architecture question
 
-The baseline answers with nine paragraphs; the skilled answer draws the dispatcher loop as an inline box-drawing flowchart with every failure branch visible, plus a failure-modes table ([baseline](benchmarks/samples/architecture.baseline.md) · [skilled](benchmarks/samples/architecture.skilled.md)).
+#### Without
+
+"How does the crawl trigger work?" gets nine paragraphs of "when a message arrives…".
+
+#### With
+
+The loop itself, failure branches included:
+
+```
+receive ──► known type? ──no──► log + delete
+              │ yes
+              ▼
+     kill stray Chrome ──► spawn collector (timeout 1800s)
+                                 │
+                 exit 0 ◄────────┴────────► fail / timeout
+                    │                            │
+             delete message          redelivered in 45 min ──3rd──► DLQ
+```
+
+Every failure path is visible before a single sentence is read.
 
 ### 3. Live smoke-test trace
 
-Same six facts as prose ([sample](benchmarks/samples/trigger-trace.prose.md)) versus one sequence timeline ([sample](benchmarks/samples/trigger-trace.timeline.md)):
+#### Without
+
+Six facts as a paragraph — send time, receive time, spawn, listing, exit code, deletion — each needing a clause to connect it to the next ([full sample](benchmarks/samples/trigger-trace.prose.md)).
+
+#### With
 
 ```
 me (dev PC) ──send──► crawler-pc-jobs ──receive──► dispatcher ──spawn──► collector
@@ -62,7 +89,7 @@ me (dev PC) ──send──► crawler-pc-jobs ──receive──► dispatche
                       deleted    @20s   ◄── exit 0 ─────────────────────────────┘
 ```
 
-Every hop, timestamp, and the exit code in three lines — the prose version needs a paragraph and still reads slower.
+Every hop, timestamp, and the exit code in three lines — the prose version needs a paragraph and still reads slower ([full sample](benchmarks/samples/trigger-trace.timeline.md)).
 
 ## Token Usage
 
