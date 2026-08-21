@@ -2,7 +2,7 @@
 
 A single `SKILL.md` that turns agent reports — status updates, test results, root-cause analysis, architecture explanations — into verdicts, tables, blocks, and inline ASCII diagrams instead of prose walls. Built for lookup, not narrative: the reader jumps to the row that concerns them.
 
-English | [简体中文](./README.zh.md)
+English | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh.md)
 
 ## The Problem
 

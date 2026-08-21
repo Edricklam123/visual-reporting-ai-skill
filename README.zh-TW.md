@@ -1,0 +1,69 @@
+# Visual Reporting Skill
+
+一個 `SKILL.md`，讓 agent 的報告——狀態更新、測試結果、根因分析、架構說明——
+變成結論行、表格、要點區塊和內嵌 ASCII 圖，而不是大段文字。為查找而寫，
+不為敘事而寫：讀者直接跳到與自己相關的那一行。
+
+[English](./README.md) | 繁體中文 | [简体中文](./README.zh.md)
+
+提煉自真實的多倉庫資料管線開發實踐：同一個 agent 每天匯報部署、IAM 稽核、
+一致性校驗和線上故障。
+
+## 使用前後對比
+
+同一模型（Haiku 4.5）、同樣的事實輸入，唯一區別是有沒有這個技能。
+
+**沒有技能**：五段敘述文字，「全部通過」埋在第三段
+（[完整樣本](benchmarks/samples/status-report.baseline.md)）。
+
+**有技能**（[完整樣本](benchmarks/samples/status-report.skilled.md)）：
+
+> **結論：** 全部測試通過 (180/180)。Schema 不匹配已用向後相容讀取修復。
+>
+> | 項目 | 詳情 |
+> |------|------|
+> | 報錯 | `KeyError: 'article_slug'` at `derive.py:84` |
+> | 根因 | Manifest schema v2 把 `article_slug` 改名為 `slug` |
+> | 修復 | 讀 `slug`，回退 `article_slug` |
+
+第三組對比是一條線上冒煙測試鏈路：六個事實寫成段落約 122 token，畫成一條
+時序線只要約 70 token（**−43%**），每一跳、每個時間戳、退出碼全在三行裡
+（[樣本](benchmarks/samples/trigger-trace.timeline.md)）。
+
+## Token 消耗——基本持平
+
+關鍵數字：在上面的 A/B 實測中，**整輪 token 總量**（系統提示、輸入、思考、
+輸出全算）差異只有 **+1.1% 和 +1.4%**。會話裡 token 主要花在讀檔案、diff
+和工具輸出上，報告的形狀是零頭。
+
+| 報告類型 | 無技能 | 有技能 | 差異 |
+|---|--:|--:|--:|
+| 鏈路時序線 vs 段落 | ~122 | ~70 | **−43%** |
+| 狀態/測試報告 | ~266 | ~229 | **−14%** |
+| 架構講解（大幅流程圖） | ~514 | ~911 | **+77%** |
+| 技能文字載入（僅報告觸發時） | — | ~1.2k，每會話一次 | 200k 視窗的 0.6% |
+| **整輪全量**（Haiku 4.5） | ~20.3k | ~20.6k | **+1.1% / +1.4%** |
+
+規律：**結構刪掉連接性廢話，空白把它加回來。** 表格和緊湊時序線比段落省；
+唯一更貴的是整頁流程圖——每次架構討論只畫一次，多花約 400 token，換來
+讀者再也不用重讀。常用的省錢項和偶爾的花錢項在一個工作會話裡互相抵消。
+
+## 安裝
+
+**Claude Code 插件：**
+
+```
+/plugin marketplace add Edricklam123/visual-reporting
+/plugin install visual-reporting@visual-reporting
+```
+
+**其他方式：** 直接讓你的 AI 把技能檔案複製到本地——比如
+「把 Edricklam123/visual-reporting 的 SKILL.md 複製到我的 skills 目錄」
+（Claude Code 是 `~/.claude/skills/`，Cursor 是 `.cursor/rules/`，
+其他 agent 放進它的規則檔案）。就一個 markdown 檔案，AI 知道放哪。
+
+---
+
+## 授權條款
+
+MIT
