@@ -95,21 +95,92 @@ me (dev PC) ──send──► crawler-pc-jobs ──receive──► dispatche
 
 Every hop, timestamp, and the exit code in three lines — the prose version needs a paragraph and still reads slower.
 
+### 4. Onboarding constraints (bullet list)
+
+#### Without
+
+Six rules delivered as six bold-led paragraphs (~270 words), each rule swaddled in reassurance:
+
+> **Golden tests are your safety gate.** Every parser change — even small ones — requires running the golden tests before merge. These frozen JSON comparisons catch subtle output changes that would otherwise break statistics downstream. Don't skip this. *(five more paragraphs like it)*
+
+#### With
+
+Same rules as grouped bullets — rank shared, no columns shared, so bullets, not a table:
+
+> **Files and reprocessing**
+> - Never delete raw source files after parsing — future reruns need them.
+> - Document IDs are content hashes; renaming an input file doesn't create a duplicate.
+>
+> **Schema and backwards compatibility**
+> - Schema changes must be additive-only; removing fields breaks historical reads.
+> - All timestamps stored in UTC; convert only at display time.
+>
+> *(two more groups: testing, concurrency)*
+
+The rule is line one of each bullet; the reason stays only where it changes behavior. 40% fewer tokens, and a contributor can re-find rule four in seconds.
+
+### 5. Performance trace (waterfall)
+
+#### Without
+
+"Why does the dashboard take 2 seconds?" gets ~260 words: three numbered explanations, then a prioritized quick-wins list — the reader reconstructs the timeline in their head, because the answer never draws it.
+
+#### With
+
+> **Verdict:** The slow database query is your bottleneck — 450ms trapped inside a 700ms API call that's already blocked on JavaScript parsing. Optimize that query before anything else.
+>
+> ```
+>          0    500   1000  1500  2000 ms
+>          ├────┼────┼────┼────┤
+>
+> DNS      ██
+> TLS      ────████
+> HTML     ────────████
+> JS       ──────────────███████████████████
+> CSS      ──────────────█████
+> API      ──────────────────────────████████████ ← blocked
+>   └─ DB  ──────────────────────────────████████ ← 450ms
+> Render   ──────────────────────────────────████
+> ```
+
+The overlap (CSS free, JS blocking) and the critical path are visible before any sentence is read — and the waterfall costs *fewer* tokens than the prose, because the bars replace every "which starts after… and runs in parallel with…" clause.
+
+### 6. Release readiness (bullets inside table cells)
+
+#### Without
+
+Three per-service sections with the comparison scattered across ~160 words; the "bottom line" arrives at the end.
+
+#### With
+
+One verdict, one table — multiple distinct notes per service become bullets inside the cell, never a run-on sentence:
+
+> **Verdict:** Two of three are ready. billing-service blocks the release. **Action:** product sign-off on the proration rule, then apply migration 0042 in staging.
+>
+> | Service | Status | Details |
+> |---------|--------|---------|
+> | auth-service | READY | • Rate limiter default: 100 req/min<br>• Token TTL: 24h → 12h |
+> | billing-service | BLOCKED | • Migration 0042 not applied in staging<br>• Invoice rounding bug #312 open<br>• Needs product sign-off on proration rule |
+> | export-service | READY | • CSV export ~90s above 100k rows<br>• S3 upload retry logic added this week |
+
 ## Token Usage
 
-About the same. In the A/B runs above, **total turn tokens with everything included** (system prompt, input, thinking, output) differed by **+1.1% and +1.4%** with the skill on. At session scale the skill is noise — your tokens go to file reads, diffs, and tool output, not to report shape.
+About the same — or less. Across the five A/B runs above, **total turn tokens with everything included** (system prompt, input, thinking, output) differed by **+0.6% to +1.4%** with the skill on. At session scale the skill is noise — your tokens go to file reads, diffs, and tool output, not to report shape.
 
 Per-report deltas from the same runs (chars÷4 estimate, n=1 per cell — indicative, not a benchmark):
 
 | Report type | Baseline | With skill | Delta |
 |-----------|--:|--:|--:|
+| Performance trace: prose vs waterfall | ~392 tok | ~216 tok | **−45%** |
 | Live-trace: prose vs sequence timeline | ~122 tok | ~70 tok | **−43%** |
+| Release readiness: prose vs table with bullet cells | ~249 tok | ~144 tok | **−42%** |
+| Onboarding constraints: paragraphs vs bullets | ~448 tok | ~268 tok | **−40%** |
 | Status / test-run report | ~266 tok | ~229 tok | **−14%** |
 | Architecture explainer (box-drawing flowchart) | ~514 tok | ~911 tok | **+77%** |
 | Skill text loaded (only when a report triggers it) | — | ~1.2k tok, once per session | 0.6% of a 200k window |
-| **End-to-end turn, everything included** (Haiku 4.5) | ~20.3k | ~20.6k | **+1.1% / +1.4%** |
+| **End-to-end turn, everything included** (Haiku 4.5) | ~20.2–20.3k | ~20.3–20.6k | **+0.6% to +1.4%** |
 
-The pattern behind the rows: **structure deletes connective prose, whitespace adds it back.** Tables and dense timelines carry the same facts in fewer tokens than a paragraph. The one shape that costs more — a full-page box flowchart — is drawn once per architecture discussion, pays ~400 extra tokens, and is the answer you'd otherwise re-explain in the next three questions. Across a working session the frequent savers and the rare spender cancel out; what never cancels is the reader time saved on every report.
+The pattern behind the rows: **structure deletes connective prose, whitespace adds it back.** Bullets, tables, timelines, and waterfalls carry the same facts in fewer tokens than a paragraph — the bars and cells replace every "which starts after" and "also note that" clause. The one shape that costs more — a full-page box flowchart — is drawn once per architecture discussion, pays ~400 extra tokens, and is the answer you'd otherwise re-explain in the next three questions. Across a working session the frequent savers dwarf the rare spender; what never cancels is the reader time saved on every report.
 
 ## Use Cases
 
@@ -162,7 +233,7 @@ The skill is one markdown file — edit it like config:
 
 **Will every answer become a table?** The guards exist exactly to prevent that: one-row tables, two-box flowcharts, and structured small talk are named violations.
 
-**Will it raise my token bill?** Measured end-to-end: +1.1–1.4% per report-turn, and only turns that produce reports load it at all — see [Token Usage](#token-usage).
+**Will it raise my token bill?** Measured end-to-end: +0.6–1.4% per report-turn, and only turns that produce reports load it at all — see [Token Usage](#token-usage).
 
 ---
 
