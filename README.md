@@ -119,33 +119,7 @@ Same rules as grouped bullets — rank shared, no columns shared, so bullets, no
 
 The rule is line one of each bullet; the reason stays only where it changes behavior. 40% fewer tokens, and a contributor can re-find rule four in seconds.
 
-### 5. Performance trace (timing bars)
-
-#### Without
-
-"Why does the dashboard take 2 seconds?" gets ~260 words: three numbered explanations, then a prioritized quick-wins list — the reader reconstructs the timeline in their head, because the answer never draws it.
-
-#### With
-
-> **Verdict:** The slow database query is your bottleneck — 450ms trapped inside a 700ms API call that's already blocked on JavaScript parsing. Optimize that query before anything else.
->
-> ```
->          0    500   1000  1500  2000 ms
->          ├────┼────┼────┼────┤
->
-> DNS      ██
-> TLS      ────████
-> HTML     ────────████
-> JS       ──────────────███████████████████
-> CSS      ──────────────█████
-> API      ──────────────────────────████████████ ← blocked
->   └─ DB  ──────────────────────────────████████ ← 450ms
-> Render   ──────────────────────────────────████
-> ```
-
-The overlap (CSS free, JS blocking) and the critical path are visible before any sentence is read — and the waterfall costs *fewer* tokens than the prose, because the bars replace every "which starts after… and runs in parallel with…" clause.
-
-### 6. Release readiness (bullets inside table cells)
+### 5. Release readiness (bullets inside table cells)
 
 #### Without
 
@@ -163,7 +137,7 @@ One verdict, one table — multiple distinct notes per service become bullets in
 > | billing-service | BLOCKED | • Migration 0042 not applied in staging<br>• Invoice rounding bug #312 open<br>• Needs product sign-off on proration rule |
 > | export-service | READY | • CSV export ~90s above 100k rows<br>• S3 upload retry logic added this week |
 
-### 7. Incident chain (cascade waterfall)
+### 6. Incident chain (cascade waterfall)
 
 #### Without
 
@@ -194,13 +168,12 @@ The feedback loop (step 6 making step 7 worse) is visible as depth — no "which
 
 ## Token Usage
 
-About the same — or less. Across the six A/B runs above, **total turn tokens with everything included** (system prompt, input, thinking, output) differed by **+0.6% to +1.4%** with the skill on. At session scale the skill is noise — your tokens go to file reads, diffs, and tool output, not to report shape.
+About the same — or less. Across the A/B runs above, **total turn tokens with everything included** (system prompt, input, thinking, output) differed by **+0.6% to +1.4%** with the skill on. At session scale the skill is noise — your tokens go to file reads, diffs, and tool output, not to report shape.
 
 Per-report deltas from the same runs (chars÷4 estimate, n=1 per cell — indicative, not a benchmark):
 
 | Report type | Baseline | With skill | Delta |
 |-----------|--:|--:|--:|
-| Performance trace: prose vs timing bars | ~392 tok | ~216 tok | **−45%** |
 | Live-trace: prose vs sequence timeline | ~122 tok | ~70 tok | **−43%** |
 | Incident chain: prose vs cascade waterfall | ~306 tok | ~233 tok | **−24%** |
 | Release readiness: prose vs table with bullet cells | ~249 tok | ~144 tok | **−42%** |
