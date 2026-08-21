@@ -150,21 +150,21 @@ Each consequence indented under its cause — the shape *is* the causality:
 > **Verdict:** A config typo disabled the cache, causing a cascading database-to-load-balancer failure. **One action that holds:** validation gates the config before deploy.
 >
 > ```
-> 1. 14:02 — deploy shipped cache TTL: 0 (typo from 600)
->    └─► 2. all requests missed cache, hit database directly
->           └─► 3. 14:07 — database CPU pinned at 100%
->                  └─► 4. API p99 latency 80ms → 4.5s, requests timeout
->                         └─► 5. timeouts fail health checks
->                                └─► 6. load balancer removes 2 of 4 nodes
->                                       └─► 7. traffic concentrates on 2 nodes
->                                              └─► 8. degradation accelerates
-> 14:19 — rollback deployed
-> 14:24 — full recovery
+> 1. 14:02 — deploy ships cache TTL: 0 (typo, was 600)
+>
+>       └─► 2. every request misses cache — database CPU pinned 100% by 14:07
+>
+>                 └─► 3. API p99 latency 80ms → 4.5s, timeouts fail health checks
+>
+>                           └─► 4. load balancer removes 2 of 4 nodes — traffic
+>                                  concentrates, degradation accelerates
+>
+> 14:19 — rollback deployed · 14:24 — full recovery
 > ```
 >
 > **Next steps:** config validation rejecting TTL < 1 · alert on cache hit rate < 50%.
 
-The feedback loop (step 6 making step 7 worse) is visible as depth — no "which caused" prose anywhere.
+The feedback loop (the load balancer's "healthy" reaction deepening the outage) is visible as depth — no "which caused" prose anywhere.
 
 ## Token Usage
 
