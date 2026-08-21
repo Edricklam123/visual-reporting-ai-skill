@@ -56,7 +56,11 @@ The verdict is line one. The error string is exact, not paraphrased. And it's *s
 
 #### Without
 
-"How does the crawl trigger work?" gets nine paragraphs of "when a message arrives…".
+"How does the crawl trigger work?" gets ~340 words of this:
+
+> **Collection PC wakes up:** The dispatcher is sitting there doing a long-poll on that queue (20-second wait). When a message arrives, it gets consumed immediately. **Preflight check:** First time the dispatcher starts, it runs the collector with no arguments — just making sure the venv is good. If it exits with code 2, great, we're ready. Code 1? That means… *(six more paragraphs)*
+
+To answer "what happens when a job fails?" you read linearly until the retry rule finally appears in paragraph seven. Nothing is skimmable; every read is a re-read.
 
 #### With
 
