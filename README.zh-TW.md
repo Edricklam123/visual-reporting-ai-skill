@@ -13,10 +13,9 @@
 
 同一模型（Haiku 4.5）、同樣的事實輸入，唯一區別是有沒有這個技能。
 
-**沒有技能**：五段敘述文字，「全部通過」埋在第三段
-（[完整樣本](benchmarks/samples/status-report.baseline.md)）。
+**沒有技能**：五段敘述文字，「全部通過」埋在第三段。
 
-**有技能**（[完整樣本](benchmarks/samples/status-report.skilled.md)）：
+**有技能**：
 
 > **結論：** 全部測試通過 (180/180)。Schema 不匹配已用向後相容讀取修復。
 >
@@ -27,8 +26,7 @@
 > | 修復 | 讀 `slug`，回退 `article_slug` |
 
 第三組對比是一條線上冒煙測試鏈路：六個事實寫成段落約 122 token，畫成一條
-時序線只要約 70 token（**−43%**），每一跳、每個時間戳、退出碼全在三行裡
-（[樣本](benchmarks/samples/trigger-trace.timeline.md)）。
+時序線只要約 70 token（**−43%**），每一跳、每個時間戳、退出碼全在三行裡。
 
 ## Token 消耗——基本持平
 

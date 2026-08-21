@@ -38,7 +38,7 @@ Same model (Haiku 4.5), same input facts — the only difference is the skill.
 
 #### Without
 
-The five-paragraph rundown quoted in The Problem — "all tests green" buried in paragraph three ([full sample](benchmarks/samples/status-report.baseline.md)).
+The five-paragraph rundown quoted in The Problem — "all tests green" buried in paragraph three.
 
 #### With
 
@@ -50,7 +50,7 @@ The five-paragraph rundown quoted in The Problem — "all tests green" buried in
 > | Root cause | Manifest schema v2 renamed `article_slug` → `slug` |
 > | Fix | Read `slug`, fallback to `article_slug` |
 
-The verdict is line one. The error string is exact, not paraphrased. And it's *shorter* — structure deletes the connective prose ("so then I", "as a result") that narrative needs ([full sample](benchmarks/samples/status-report.skilled.md)).
+The verdict is line one. The error string is exact, not paraphrased. And it's *shorter* — structure deletes the connective prose ("so then I", "as a result") that narrative needs.
 
 ### 2. Architecture question
 
@@ -83,7 +83,7 @@ Every failure path is visible before a single sentence is read.
 
 #### Without
 
-Six facts as a paragraph — send time, receive time, spawn, listing, exit code, deletion — each needing a clause to connect it to the next ([full sample](benchmarks/samples/trigger-trace.prose.md)).
+Six facts as one paragraph — send time, receive time, spawn, listing, exit code, deletion — each needing a clause to connect it to the next.
 
 #### With
 
@@ -93,13 +93,13 @@ me (dev PC) ──send──► crawler-pc-jobs ──receive──► dispatche
                       deleted    @20s   ◄── exit 0 ─────────────────────────────┘
 ```
 
-Every hop, timestamp, and the exit code in three lines — the prose version needs a paragraph and still reads slower ([full sample](benchmarks/samples/trigger-trace.timeline.md)).
+Every hop, timestamp, and the exit code in three lines — the prose version needs a paragraph and still reads slower.
 
 ## Token Usage
 
 About the same. In the A/B runs above, **total turn tokens with everything included** (system prompt, input, thinking, output) differed by **+1.1% and +1.4%** with the skill on. At session scale the skill is noise — your tokens go to file reads, diffs, and tool output, not to report shape.
 
-Per-report deltas, measured on the samples (chars÷4 estimate, n=1 per cell — indicative, not a benchmark):
+Per-report deltas from the same runs (chars÷4 estimate, n=1 per cell — indicative, not a benchmark):
 
 | Report type | Baseline | With skill | Delta |
 |-----------|--:|--:|--:|
@@ -110,8 +110,6 @@ Per-report deltas, measured on the samples (chars÷4 estimate, n=1 per cell — 
 | **End-to-end turn, everything included** (Haiku 4.5) | ~20.3k | ~20.6k | **+1.1% / +1.4%** |
 
 The pattern behind the rows: **structure deletes connective prose, whitespace adds it back.** Tables and dense timelines carry the same facts in fewer tokens than a paragraph. The one shape that costs more — a full-page box flowchart — is drawn once per architecture discussion, pays ~400 extra tokens, and is the answer you'd otherwise re-explain in the next three questions. Across a working session the frequent savers and the rare spender cancel out; what never cancels is the reader time saved on every report.
-
-Want real numbers? The samples and prompts are in [`benchmarks/`](benchmarks/) — PRs with larger-n runs welcome.
 
 ## Use Cases
 

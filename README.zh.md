@@ -13,10 +13,9 @@
 
 同一模型（Haiku 4.5）、同样的事实输入，唯一区别是有没有这个技能。
 
-**没有技能**：五段叙述文字，"全部通过"埋在第三段
-（[完整样本](benchmarks/samples/status-report.baseline.md)）。
+**没有技能**：五段叙述文字，"全部通过"埋在第三段。
 
-**有技能**（[完整样本](benchmarks/samples/status-report.skilled.md)）：
+**有技能**：
 
 > **结论：** 全部测试通过 (180/180)。Schema 不匹配已用向后兼容读取修复。
 >
@@ -27,8 +26,7 @@
 > | 修复 | 读 `slug`，回退 `article_slug` |
 
 第三组对比是一条线上冒烟测试链路：六个事实写成段落约 122 token，画成一条
-时序线只要约 70 token（**−43%**），每一跳、每个时间戳、退出码全在三行里
-（[样本](benchmarks/samples/trigger-trace.timeline.md)）。
+时序线只要约 70 token（**−43%**），每一跳、每个时间戳、退出码全在三行里。
 
 ## Token 消耗——基本持平
 
