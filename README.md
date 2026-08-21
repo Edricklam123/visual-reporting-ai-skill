@@ -201,13 +201,13 @@ Where it stays out of the way: single-fact answers, code deliverables, and conve
 **Claude Code plugin:**
 
 ```
-/plugin marketplace add Edricklam123/visual-reporting
+/plugin marketplace add Edricklam123/visual-reporting-ai-skill
 /plugin install visual-reporting@visual-reporting
 ```
 
 Updates flow with the repo: `/plugin marketplace update visual-reporting` re-fetches it.
 
-**Everything else:** ask your AI to copy the skill file to local — e.g. "copy [SKILL.md](skills/visual-reporting/SKILL.md) from Edricklam123/visual-reporting into my skills folder" (`~/.claude/skills/` for Claude Code, `.cursor/rules/` for Cursor — a [ready-made .mdc](.cursor/rules/visual-reporting.mdc) exists — or your agent's rules file). It's one markdown file; the AI knows where it goes.
+**Everything else:** ask your AI to copy the skill file to local — e.g. "copy [SKILL.md](skills/visual-reporting/SKILL.md) from Edricklam123/visual-reporting-ai-skill into my skills folder" (`~/.claude/skills/` for Claude Code, `.cursor/rules/` for Cursor — a [ready-made .mdc](.cursor/rules/visual-reporting.mdc) exists — or your agent's rules file). It's one markdown file; the AI knows where it goes.
 
 ## How to Know It's Working
 

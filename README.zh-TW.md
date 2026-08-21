@@ -51,12 +51,12 @@
 **Claude Code 插件：**
 
 ```
-/plugin marketplace add Edricklam123/visual-reporting
+/plugin marketplace add Edricklam123/visual-reporting-ai-skill
 /plugin install visual-reporting@visual-reporting
 ```
 
 **其他方式：** 直接讓你的 AI 把技能檔案複製到本地——比如
-「把 Edricklam123/visual-reporting 的 SKILL.md 複製到我的 skills 目錄」
+「把 Edricklam123/visual-reporting-ai-skill 的 SKILL.md 複製到我的 skills 目錄」
 （Claude Code 是 `~/.claude/skills/`，Cursor 是 `.cursor/rules/`，
 其他 agent 放進它的規則檔案）。就一個 markdown 檔案，AI 知道放哪。
 
