@@ -151,14 +151,10 @@ Each consequence indented under its cause — the shape *is* the causality:
 >
 > ```
 > 1. 14:02 — deploy ships cache TTL: 0 (typo, was 600)
->
 >       └─► 2. every request misses cache — database CPU pinned 100% by 14:07
->
 >                 └─► 3. API p99 latency 80ms → 4.5s, timeouts fail health checks
->
 >                           └─► 4. load balancer removes 2 of 4 nodes — traffic
 >                                  concentrates, degradation accelerates
->
 > 14:19 — rollback deployed · 14:24 — full recovery
 > ```
 >

@@ -81,9 +81,7 @@ numbered steps, each consequence indented one level under its cause:
 
 ```
 1. first event (time)
-
       └─► 2. consequence (time)
-
                 └─► 3. next consequence
 ```
 
