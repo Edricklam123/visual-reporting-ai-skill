@@ -1,12 +1,10 @@
-# visual-reporting
+# Visual Reporting Skill
 
-**别让人读，让人看。**
+一个 `SKILL.md`，让 agent 的报告——状态更新、测试结果、根因分析、架构说明——
+变成结论行、表格、要点块和内联 ASCII 图，而不是大段文字。为查找而写，
+不为叙事而写：读者直接跳到与自己相关的那一行。
 
-[English](README.md)
-
-一个 Claude Code 技能：把所有"报告型"回答——状态更新、测试结果、根因分析、
-架构说明——强制转成结论行、表格、要点块和内联 ASCII 图，而不是大段文字。
-读者直接跳到与自己相关的那一行，不用在段落里反复找那个关键数字。
+[English](./README.md) | 简体中文
 
 提炼自真实的多仓库数据管线开发实践：同一个 agent 每天汇报部署、IAM 审计、
 一致性校验和线上故障。
@@ -63,6 +61,8 @@
 "把 Edricklam123/visual-reporting 的 SKILL.md 复制到我的 skills 目录"
 （Claude Code 是 `~/.claude/skills/`，Cursor 是 `.cursor/rules/`，
 其他 agent 放进它的规则文件）。就一个 markdown 文件，AI 知道放哪。
+
+---
 
 ## 许可证
 
