@@ -37,6 +37,7 @@ not what you build — pairs cleanly with code-style or terseness skills.
 | 3+ items sharing attributes | Table |
 | Multiple homogeneous points, same hierarchy, no shared columns | Bullet list |
 | Ordered steps, chain that can fail | Flowchart |
+| Chain where each event causes the next | Cascade waterfall |
 | One cause + evidence + fix | Block |
 | Overall state | Verdict line or status cards |
 | Commands, errors, paths | Code block, verbatim — never paraphrase |
@@ -75,8 +76,18 @@ before anything is read.
 
 Diagram forms: architecture blocks (tag what's NEW vs EXISTING) · sequence
 lifelines with real calls/payloads on arrows · loop flowcharts with failure
-branches drawn · time-window bars. Redrawing the same diagram after a design
-change shows the delta better than describing it.
+branches drawn · time-window bars · cascade waterfalls for cause chains —
+numbered steps, each consequence indented one level under its cause:
+
+```
+1. first event (time)
+   └─► 2. consequence (time)
+          └─► 3. next consequence
+```
+
+The cascade shape itself shows causality; no "which caused" prose needed.
+Redrawing the same diagram after a design change shows the delta better than
+describing it.
 
 Table shapes for judgement calls: Keep/Cut/Change · Assumption/Reality/
 Consequence · Scenario/handled-by/cost. Starting points, not a catalog to

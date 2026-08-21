@@ -19,6 +19,7 @@ report the content asks for; the only hard rule is the first one.
 | 3+ items sharing attributes | Table |
 | Multiple homogeneous points, same hierarchy, no shared columns | Bullet list |
 | Ordered steps, chain that can fail | Flowchart |
+| Chain where each event causes the next | Cascade waterfall (numbered steps, each consequence indented under its cause with └─► arrows) |
 | One cause + evidence + fix | Block |
 | Overall state | Verdict line or status cards |
 | Commands, errors, paths | Code block, verbatim — never paraphrase |
@@ -42,7 +43,9 @@ short and consistent — `PASS / LIVE / BLOCKED / WAITING`.
 
 Chat reply → draw ASCII box-drawing diagrams inline: architecture blocks (tag
 NEW vs EXISTING), sequence lifelines with real calls/payloads on arrows, loop
-flowcharts with failure branches drawn, time-window bars.
+flowcharts with failure branches drawn, time-window bars, cascade waterfalls
+for cause chains (numbered steps, each consequence indented one level under
+its cause with └─► arrows — the shape itself shows causality).
 
 ## Guards
 

@@ -119,7 +119,7 @@ Same rules as grouped bullets — rank shared, no columns shared, so bullets, no
 
 The rule is line one of each bullet; the reason stays only where it changes behavior. 40% fewer tokens, and a contributor can re-find rule four in seconds.
 
-### 5. Performance trace (waterfall)
+### 5. Performance trace (timing bars)
 
 #### Without
 
@@ -163,16 +163,46 @@ One verdict, one table — multiple distinct notes per service become bullets in
 > | billing-service | BLOCKED | • Migration 0042 not applied in staging<br>• Invoice rounding bug #312 open<br>• Needs product sign-off on proration rule |
 > | export-service | READY | • CSV export ~90s above 100k rows<br>• S3 upload retry logic added this week |
 
+### 7. Incident chain (cascade waterfall)
+
+#### Without
+
+"What actually happened in this afternoon's outage?" gets ~200 words: root cause, a bulleted failure list, recovery, preventions — the causality lives in connective phrases ("so", "but this just", "making the problem worse") the reader must chain together themselves.
+
+#### With
+
+Each consequence indented under its cause — the shape *is* the causality:
+
+> **Verdict:** A config typo disabled the cache, causing a cascading database-to-load-balancer failure. **One action that holds:** validation gates the config before deploy.
+>
+> ```
+> 1. 14:02 — deploy shipped cache TTL: 0 (typo from 600)
+>    └─► 2. all requests missed cache, hit database directly
+>           └─► 3. 14:07 — database CPU pinned at 100%
+>                  └─► 4. API p99 latency 80ms → 4.5s, requests timeout
+>                         └─► 5. timeouts fail health checks
+>                                └─► 6. load balancer removes 2 of 4 nodes
+>                                       └─► 7. traffic concentrates on 2 nodes
+>                                              └─► 8. degradation accelerates
+> 14:19 — rollback deployed
+> 14:24 — full recovery
+> ```
+>
+> **Next steps:** config validation rejecting TTL < 1 · alert on cache hit rate < 50%.
+
+The feedback loop (step 6 making step 7 worse) is visible as depth — no "which caused" prose anywhere.
+
 ## Token Usage
 
-About the same — or less. Across the five A/B runs above, **total turn tokens with everything included** (system prompt, input, thinking, output) differed by **+0.6% to +1.4%** with the skill on. At session scale the skill is noise — your tokens go to file reads, diffs, and tool output, not to report shape.
+About the same — or less. Across the six A/B runs above, **total turn tokens with everything included** (system prompt, input, thinking, output) differed by **+0.6% to +1.4%** with the skill on. At session scale the skill is noise — your tokens go to file reads, diffs, and tool output, not to report shape.
 
 Per-report deltas from the same runs (chars÷4 estimate, n=1 per cell — indicative, not a benchmark):
 
 | Report type | Baseline | With skill | Delta |
 |-----------|--:|--:|--:|
-| Performance trace: prose vs waterfall | ~392 tok | ~216 tok | **−45%** |
+| Performance trace: prose vs timing bars | ~392 tok | ~216 tok | **−45%** |
 | Live-trace: prose vs sequence timeline | ~122 tok | ~70 tok | **−43%** |
+| Incident chain: prose vs cascade waterfall | ~306 tok | ~233 tok | **−24%** |
 | Release readiness: prose vs table with bullet cells | ~249 tok | ~144 tok | **−42%** |
 | Onboarding constraints: paragraphs vs bullets | ~448 tok | ~268 tok | **−40%** |
 | Status / test-run report | ~266 tok | ~229 tok | **−14%** |
