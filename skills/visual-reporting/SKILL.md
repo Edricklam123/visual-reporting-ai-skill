@@ -1,8 +1,8 @@
 ---
 name: visual-reporting
 description: >
-  Use when reporting results, status, findings, verification runs, test
-  outcomes, root-cause analysis, comparisons, audits, plans, or "what works /
+  Use when reporting results, status, progress, findings, verification runs,
+  test outcomes, root-cause analysis, comparisons, audits, plans, or "what works /
   what doesn't" — and whenever asked to summarize, explain, or write up
   anything. Assume it applies to any report-shaped answer even if the user
   never says "report", "table", or "diagram". Also use when the user says
@@ -38,6 +38,7 @@ not what you build — pairs cleanly with code-style or terseness skills.
 | Multiple homogeneous points, same hierarchy, no shared columns | Bullet list |
 | Ordered steps, chain that can fail | Flowchart |
 | Chain where each event causes the next | Cascade waterfall |
+| Progress across stages of ongoing work | Progress map |
 | One cause + evidence + fix | Block |
 | Overall state | Verdict line or status cards |
 | Commands, errors, paths | Code block, verbatim — never paraphrase |
@@ -88,6 +89,24 @@ numbered steps, each consequence indented one level under its cause:
 The cascade shape itself shows causality; no "which caused" prose needed.
 Redrawing the same diagram after a design change shows the delta better than
 describing it.
+
+Progress maps for multi-stage work — one bar per stage, done/total counts,
+an overall bar on the title line. Redraw it after every stage/level change
+and whenever the user asks for progress:
+
+```
+Topic: <topic>                          overall: █████░░░░░ 53%
+─────────────────────────────────────────────────────────────────
+stage A               [████████░░]  4/5  * independent
+stage B               [██████░░░░]  3/5  ◄─ current focus
+stage C               [██░░░░░░░░]  1/5
+─────────────────────────────────────────────────────────────────
+```
+
+Bars use solid/light blocks (`█` U+2588 / `░` U+2591), one cell per 10%;
+the overall % is done ÷ total across all stages. Tag at most one stage
+`◄─ current focus`; mark stages with no dependency on the others
+`* independent` so the reader sees what can run in parallel.
 
 Table shapes for judgement calls: Keep/Cut/Change · Assumption/Reality/
 Consequence · Scenario/handled-by/cost. Starting points, not a catalog to

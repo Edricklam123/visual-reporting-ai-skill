@@ -20,6 +20,7 @@ report the content asks for; the only hard rule is the first one.
 | Multiple homogeneous points, same hierarchy, no shared columns | Bullet list |
 | Ordered steps, chain that can fail | Flowchart |
 | Chain where each event causes the next | Cascade waterfall (numbered steps, each consequence indented under its cause with └─► arrows) |
+| Progress across stages of ongoing work | Progress map (bar per stage, done/total, overall bar; redraw after every stage/level change and when asked for progress) |
 | One cause + evidence + fix | Block |
 | Overall state | Verdict line or status cards |
 | Commands, errors, paths | Code block, verbatim — never paraphrase |
@@ -45,7 +46,20 @@ Chat reply → draw ASCII box-drawing diagrams inline: architecture blocks (tag
 NEW vs EXISTING), sequence lifelines with real calls/payloads on arrows, loop
 flowcharts with failure branches drawn, time-window bars, cascade waterfalls
 for cause chains (numbered steps, each consequence indented one level under
-its cause with └─► arrows — the shape itself shows causality).
+its cause with └─► arrows — the shape itself shows causality), progress maps:
+
+```
+Topic: <topic>                          overall: █████░░░░░ 53%
+─────────────────────────────────────────────────────────────────
+stage A               [████████░░]  4/5  * independent
+stage B               [██████░░░░]  3/5  ◄─ current focus
+stage C               [██░░░░░░░░]  1/5
+─────────────────────────────────────────────────────────────────
+```
+
+Bars use █ (U+2588) / ░ (U+2591), one cell per 10%; overall % = done ÷ total
+across stages. One `◄─ current focus`; `* independent` marks stages with no
+dependency on the others.
 
 ## Guards
 
